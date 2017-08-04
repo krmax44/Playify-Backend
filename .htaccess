@@ -1,0 +1,6 @@
+<Files "token.json,website.html,playlist.php,domains.php,gpmdp.php,credentials.auth">
+Order Allow,Deny
+Deny from all
+</Files>
+
+RewriteRule ^download$ https://chrome.google.com/webstore/detail/playify/cniimiiflgmmjmcohcgnofcdiifdifef [R=301,L]
