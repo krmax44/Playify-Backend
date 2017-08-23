@@ -2,23 +2,31 @@
 <html>
 
 <head>
-    <title>Spotify Playlist - Playify</title>
-    <link rel="stylesheet" type="text/css" href="css/materialize.min.css">
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:400,700">
-	<link rel="icon" href="icon.png">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Spotify Playlist - Playify</title>
+	<link href="icon.png" rel="icon">
+	<meta content="width=device-width, initial-scale=1" name="viewport">
+	<meta content="#10BC4C" name="theme-color">
+	<link href="css/materialize.min.css" type="text/css" rel="stylesheet">
+	<link href="css/style.css" type="text/css" rel="stylesheet">
     <style type="text/css">
 	  	* {
 	    	user-select: none;
 	  	}
-      
-		.green.accent-4 {
-			background-color: #10BC4C !important;
-		}
-
-		.green-text.accent-4 {
-			color: #10BC4C !important;
-		}
-		
+	  	
+	  	body {
+	  		padding-bottom: 0;
+	  		margin-bottom: 0;
+	  		background-image: url("img/concert.jpg");
+	  		background-size: cover;
+	  		background-attachment: fixed;
+	  		background-repeat: no-repeat;
+	  	}
+	  	
+	  	.pad {
+	  		padding-top: 20px;
+	  	}
+	  	
 		.collection li img {
 	        position: absolute;
 	        width: 42px;
@@ -31,7 +39,7 @@
 
 	    .progress-footer {
 		    background-size: 0%;
-		    background-image: linear-gradient(to bottom, #26a69a, #26a69a);
+		    background-image: linear-gradient(to bottom, #10BC4C, #10BC4C);
 		    background-repeat: repeat-y;
 		    transition: background-size ease .5s, height ease .5s, background-color ease .5s;
 	    }
@@ -39,65 +47,74 @@
 </head>
 
 <body>
-    <nav class="green accent-4" role="navigation">
-        <div class="nav-wrapper container">
-        	<a id="logo-container" href="#!" class="brand-logo">Playify</a>
-        </div>
-    </nav>
+    <nav class="black" role="navigation">
+		<div class="nav-wrapper container">
+			<a href="#!" class="brand-logo center">Playify</a>
+		</div>
+	</nav>
 
 	<div class="container">
 		<br><br>
-		<h1 class="center header green-text accent-4">Playlist</h1>
+		<h1 class="center header">Playlist</h1>
 		<br><br>
-		<ul class="collection">
-		    <?php
-				$tracks = array();
-				for ($i=0; $i<count($res["items"]); $i++) {
-					$searchword = $res["items"][$i]["track"]["name"]." - ".$res["items"][$i]["track"]["artists"][0]["name"];
-					array_push($tracks, $searchword);
-					?>
-					<li class="collection-item avatar">
-					  <img src="<?php echo $res["items"][$i]["track"]["album"]["images"][2]["url"]; ?>" alt="Album cover">
-					  <span class="title"><?php echo $res["items"][$i]["track"]["name"]; ?></span>
-					  <p><?php
-						$artists = "";
-						$i2max = count($res["items"][$i]["track"]["artists"]);
-						for ($i2=0; $i2<$i2max; $i2++) {
-							$artists .= $res["items"][$i]["track"]["artists"][$i2]["name"];
-							if ($i2 + 1 < $i2max) {
-								$artists .= ", ";
+	</div>
+	
+	
+	<div class="container">
+			<ul class="collection">
+			    <?php
+					$tracks = array();
+					for ($i=0; $i<count($res["items"]); $i++) {
+						$searchword = $res["items"][$i]["track"]["name"]." - ".$res["items"][$i]["track"]["artists"][0]["name"];
+						array_push($tracks, $searchword);
+						?>
+						<li class="collection-item avatar black">
+						  <img src="<?php echo $res["items"][$i]["track"]["album"]["images"][2]["url"]; ?>" alt="Album cover">
+						  <span class="title"><?php echo $res["items"][$i]["track"]["name"]; ?></span>
+						  <p><?php
+							$artists = "";
+							$i2max = count($res["items"][$i]["track"]["artists"]);
+							for ($i2=0; $i2<$i2max; $i2++) {
+								$artists .= $res["items"][$i]["track"]["artists"][$i2]["name"];
+								if ($i2 + 1 < $i2max) {
+									$artists .= ", ";
+								}
 							}
-						}
-						echo $artists;
-						echo "<br>";
-						echo $res["items"][$i]["track"]["album"]["name"];
-						  ?></p>
-						
-							<?php 
-								if ($_GET["d"] == "gpmdp") { 
-							?>
-								<a data-search="<?php echo str_replace('"', '\"', $searchword); ?>" class="secondary-content gpmdp" style="cursor:pointer;" target="_blank">
-							<?php } else { ?>
-								<a href="<?php echo getLink($searchword); ?>" class="secondary-content" target="_blank">
-							<?php } ?>
-									
-						<svg fill="#000000" height="32" viewBox="0 0 24 24" width="32" xmlns="http://www.w3.org/2000/svg">
-							<path d="M8 5v14l11-7z"/>
-							<path d="M0 0h24v24H0z" fill="none"/>
-						</svg>      
-					  </a>
-					</li>
-					<?php
-				}
-			?>
-		</ul>
+							echo $artists;
+							echo "<br>";
+							echo $res["items"][$i]["track"]["album"]["name"];
+							  ?></p>
+							
+								<?php 
+									if ($_GET["d"] == "gpmdp") { 
+								?>
+									<a data-search="<?php echo str_replace('"', '\"', $searchword); ?>" class="secondary-content gpmdp" style="cursor:pointer;" target="_blank">
+								<?php } else { ?>
+									<a href="<?php echo getLink($searchword); ?>" class="secondary-content" target="_blank">
+								<?php } ?>
+										
+							<i class="icon-play green-text accent-4"></i>
+						  </a>
+						</li>
+						<?php
+					}
+				?>
+			</ul>
+		</div>
 
 	    <?php if ($_GET["d"] == "gpm" || $_GET["d"] == "gpmdp") { ?>
 			<div class="fixed-action-btn horizontal export-playlist">
-		      <a class="btn-floating btn-large red center waves-effect waves-light tooltipped" style="line-height: 76px" data-tooltip="Export playlist" data-position="left">
-		        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAABlBMVEX///////9VfPVsAAAAAXRSTlMAQObYZgAAACZJREFUeAFjGNlgFDACAbkaRjWMamDEAwahBoo8PaphVMOIBqMAAMTdANFjxU67AAAAAElFTkSuQmCC" width="32">
+		      <a class="btn-floating btn-large green accent-4 center waves-effect waves-light tooltipped" style="font-size:26px;" data-tooltip="Export playlist" data-position="left" id="transfer-btn">
+		        <i class="icon-transfer"></i>
 		      </a>
 		    </div>
+		    
+		    <div class="tap-target green accent-4" data-activates="transfer-btn">
+		    	<div class="tap-target-content">
+		    		<h5>Export playlist</h5>
+		    		<p>To completely transfer this Spotify playlist to your Google Play Music library, click on the Transfer icon.</p>
+		    	</div>
+			</div>
 		<?php } ?>
 		
 		<div class="modal" id="transfer-auth">
@@ -125,7 +142,7 @@
 				</ul>
 			</div>
 			<div class="modal-footer">
-				<a href="#!" class="modal-action waves-effect waves-light btn-flat modal-close" id="transfer-login">Login</a>
+				<a href="#!" class="modal-action waves-effect waves-light btn modal-close" id="transfer-login">Login</a>
 			</div>
 		</div>
 		
@@ -151,14 +168,22 @@
 			</div>
 			<div class="modal-footer progress-footer">
 				<span></span>
-				<a href="#!" class="btn-flat modal-action waves-effect waves-light" id="transfer-logout">Log out</a>
-				<a href="#!" class="btn-flat modal-action waves-effect waves-light" id="transfer-confirm">Start transfer</a>
+				<a href="#!" class="btn modal-action waves-effect waves-light" id="transfer-logout">Log out</a>
+				<a href="#!" class="btn modal-action waves-effect waves-light" id="transfer-confirm">Start transfer</a>
 			</div>
 		</div>
 	</div>
+	
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script type="text/javascript" src="js/materialize.min.js"></script>
 		<script type="text/javascript">
+			$(document).ready(function(){
+				if (localStorage.getItem("transfer") != "yes") {
+					$(".tap-target").tapTarget("open");
+					localStorage.setItem("transfer", "yes");
+				}
+			});
+			
 			var tracks = <?php echo json_encode($tracks); ?>;
 			
 			var parser = document.createElement("a");
@@ -320,7 +345,7 @@
 					};
 					
 					transfer.onerror = function() {
-						Materialize.toast('Could not connect to Transfer -&nbsp;<a href="https://github.com/krmax44/playify-transfer#setup" target="_blank">is it set up correctly?</a>', 5000);
+						Materialize.toast('Could not connect to Transfer -&nbsp;<a href="https://github.com/krmax44/playify-transfer#setup" target="_blank" class="link">is it set up correctly?</a>', 5000);
 					};
 				}
 				else {
@@ -350,7 +375,7 @@
 			});
 
 			$("#transfer-logout").on("click", function(){
-				localStorage.clear();
+				localStorage.removeItem("transferauth");
 				$("#transfer-start").modal("close");
 				setTimeout(function(){
 					$(".export-playlist").trigger("click");
@@ -374,7 +399,7 @@
 					$("#transfer-start .modal-content").css("height", "calc(100% - 5px)");
 					$(".progress-footer").css({
 						"height": "5px",
-						"background-color": "#acece6"
+						"background-color": "#fff"
 					});
 				});
 				

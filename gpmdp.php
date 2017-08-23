@@ -3,134 +3,53 @@
 
 <head>
     <title>Google Play Music Desktop Player - Playify</title>
-    <link rel="stylesheet" type="text/css" href="css/materialize.min.css">
-    <link rel="icon" href="icon.png">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Spotify Playlist - Playify</title>
+	<link href="icon.png" rel="icon">
+	<meta content="width=device-width, initial-scale=1" name="viewport">
+	<meta content="#10BC4C" name="theme-color">
+	<link href="css/materialize.min.css" type="text/css" rel="stylesheet">
+	<link href="css/style.css" type="text/css" rel="stylesheet">
     <style type="text/css">
-    body {
-        font-family: "Roboto", sans-serif;
-    }
-    
-    .green.accent-4 {
-        background-color: #10BC4C !important;
-    }
-    
-    .green-text.accent-4 {
-        color: #10BC4C !important;
-    }
-    
-    .hidden {
-        display: none;
-    }
-    
-    /* loading animation from https://codepen.io/peterssonjesper/pen/LvpqB */
-    .eq-spinner {
-        height: 20px;
-        width: 21px;
-        margin: 100px auto;
-        transform: rotate(180deg);
-    }
-    
-    .eq-spinner:before, .eq-spinner:after, .eq-spinner > i {
-        float: left;
-        width: 5px;
-        height: 20px;
-        background: #10BC4C;
-        margin-left: 3px;
-        content: "";
-    }
-    
-    .eq-spinner:before {
-        margin-left: 0;
-    }
-    
-    .eq-spinner:before {
-        animation: bounce-3 1s infinite linear;
-    }
-    
-    .eq-spinner > i {
-        animation: bounce-2 1s infinite linear;
-    }
-    
-    .eq-spinner:after {
-        animation: bounce-1 1s infinite linear;
-    }
-    
-    @keyframes bounce-1 {
-        0% {
-            height: 1px
-        }
-        16.7% {
-            height: 20px
-        }
-        33.4% {
-            height: 20px
-        }
-        100% {
-            height: 1px
-        }
-    }
-    
-    @keyframes bounce-2 {
-        0% {
-            height: 1px
-        }
-        16.7% {
-            height: 1px
-        }
-        33.4% {
-            height: 20px
-        }
-        50% {
-            height: 20px
-        }
-        100% {
-            height: 1px
-        }
-    }
-    
-    @keyframes bounce-3 {
-        0% {
-            height: 1px
-        }
-        33.4% {
-            height: 1px
-        }
-        50% {
-            height: 20px
-        }
-        66.7% {
-            height: 20px
-        }
-        100% {
-            height: 1px
-        }
-    }
-    </style>
+	  	* {
+	    	user-select: none;
+	  	}
+	  </style>
 </head>
 
 <body>
-    <nav class="green accent-4" role="navigation">
-        <div class="nav-wrapper container">
-            <a id="logo-container" href="#!" class="brand-logo">Playify</a>
-        </div>
-    </nav>
-    <div class="container">
-        <br>
-        <br>
-        <h1 class="center header green-text accent-4">GPMDP</h1>
-        <br>
-        <br>
-        <div class="playing center">
-            <div class="eq-spinner"><i></i></div>
-            <p>
-              Opened it in GPMDP.
-          </p>
-        </div>
-        <div class="error center hidden">
-            <p>
-                Error: GPMDP is probably configured wrong. Please click on the Playify icon in Chrome and select 'Setup' next to 'Google Play Music Desktop Player'.
-            </p>
-        </div>
+    <nav class="black" role="navigation">
+		<div class="nav-wrapper container">
+			<a href="#!" class="brand-logo center">Playify</a>
+		</div>
+	</nav>
+	
+    <div class="valign-wrapper section-start">
+    	<div class="container center">
+	        <h1 class="white-text">GPMDP</h1>
+	        <br>
+	        <br>
+	        <div class="playing">
+	            <p>Connecting...</p>
+	        </div>
+	        <div class="error" style="display: none;">
+	            <p>Error: GPMDP is probably configured wrong. Please click on the Playify icon in Chrome, then on "Setup" next to "Google Play Music Desktop Player" and follow the instructions.</p>
+	        </div>
+		</div>
+		<div class="eq-wrapper">
+			<div class="eq">
+				<span></span>
+				<span></span>
+				<span></span>
+				<span></span>
+				<span></span>
+				<span></span>
+				<span></span>
+				<span></span>
+				<span></span>
+				<span></span>
+			</div>
+		</div>
     </div>
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script type="text/javascript" src="js/materialize.min.js"></script>
@@ -145,8 +64,7 @@
 
         if (data.channel == "connect") {
             if (data.payload == "CODE_REQUIRED") {
-                $(".playing").hide();
-                $(".error").show();
+                error();
             }
         }
       
@@ -162,7 +80,7 @@
               if (intval($_GET["v"]) >= 2) {
                 ?>
                 setTimeout(function(){
-                  window.location.href = "https://krmax44.de/playify/close";
+                	window.location.href = "https://krmax44.de/playify/close";
                 }, 2000);
                 <?php
               }
@@ -184,9 +102,14 @@
     };
 
     socket.onerror = function() {
-        $(".playing").hide();
-        $(".error").show();
+        error();
     };
+    
+    function error () {
+    	$(".eq span").css("animation-play-state", "paused");
+    	$(".playing").hide();
+    	$(".error").show();
+    }
     </script>
 </body>
 

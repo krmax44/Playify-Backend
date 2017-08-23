@@ -1,7 +1,7 @@
 <?php
 function getLink ($search) {
   $domains = array();
-  $domains["list"] = array("gpm","amazon", "youtube", "gpmdp");
+  $domains["list"] = array("gpm","amazon", "youtube", "gpmdp", "gpmdp2");
   $domains["gpm"] = "https://play.google.com/music/listen#/sr/#s#";
   $domains["amazon"] = "https://music.amazon#e#/search/#s#";
   $domains["youtube"] = "https://youtube.com/results?search_query=#s#";
@@ -24,6 +24,12 @@ function getLink ($search) {
   if ($domain == "gpmdp") {
     $category = $_GET["type"]."s";
     include("gpmdp.php");
+    exit;
+  }
+  
+  if ($domain == "gpmdp2") {
+    $category = $_GET["type"]."s";
+    include("gpmdp-2.php");
     exit;
   }
 

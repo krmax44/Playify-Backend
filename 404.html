@@ -3,46 +3,81 @@
 
 <head>
     <title>404 - Playify</title>
-    <link rel="stylesheet" type="text/css" href="https://krmax44.de/playify/css/materialize.min.css">
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:400,700">
-    <link rel="icon" href="icon.png">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link href="icon.png" rel="icon">
+	<meta content="width=device-width, initial-scale=1" name="viewport">
+	<meta content="#10BC4C" name="theme-color">
+	<link href="css/materialize.min.css" type="text/css" rel="stylesheet">
+	<link href="css/style.css" type="text/css" rel="stylesheet">
     <style type="text/css">
-    	.green.accent-4 {
-    		background-color: #10BC4C !important;
-    	}
-
-    	.green-text.accent-4 {
-    		color: #10BC4C !important;
-    	}
-
-        .collection li img {
-            position: absolute;
-            width: 42px;
-            height: 42px;
-            overflow: hidden;
-            left: 15px;
-            display: inline-block;
-            vertical-align: middle;
-        }
-    </style>
+	  	* {
+	    	user-select: none;
+	  	}
+	  	
+	  	/*
+	  		glitch effect in css (modified), original version from Thomas Aufresne
+	  		https://codepen.io/origine/pen/qaKkPE
+	  	*/
+	  	
+	  	.glitchy {
+			position: relative;
+			display: inline-block;
+			z-index: 1;
+		}
+		.glitchy:before, .glitchy:after {
+			content: attr(data-glitch);
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+		}
+		.glitchy:before {
+			color: #00ffff;
+			z-index: -1;
+			animation: glitchy 0.3s ease 0.3s infinite;
+		}
+		.glitchy:after {
+			color: #ff00ff;
+			z-index: -2;
+			animation: glitchy 0.3s ease infinite reverse;
+		}
+		@keyframes glitchy {
+			0% {
+				transform: translate(-2px, 2px);
+			}
+			25% {
+				transform: translate(-2px, -2px);
+			}
+			50% {
+				transform: translate(2px, 2px);
+			}
+			75% {
+				transform: translate(2px, -2px);
+			}
+			100% {
+				transform: translate(-2px, 2px);
+			}
+		}
+	  </style>
 </head>
 
 <body>
-    <nav class="green accent-4" role="navigation">
-        <div class="nav-wrapper container">
-        	<a id="logo-container" href="#!" class="brand-logo">Playify</a>
-        </div>
-    </nav>
-
-	<div class="container">
-		<br><br>
-		<h1 class="center header green-text accent-4">404</h1>
-		<br><br>
-		<p class="center">We could not find what you're looking for. Sorry for that.</p>
+    <nav class="black" role="navigation">
+		<div class="nav-wrapper container">
+			<a href="#!" class="brand-logo center">Playify</a>
+		</div>
+	</nav>
+	
+	<div class="valign-wrapper section-start">
+		<div class="container center">
+			<h1 class="glitchy" data-glitch="404">404</h1>
+			<p>We could not find what you're looking for. Sorry for that.</p>
+		</div>
 	</div>
 
-    <script type="text/javascript" src="https://krmax44.de/playify/js/jquery.min.js"></script>
-    <script type="text/javascript" src="https://krmax44.de/playify/js/materialize.min.js"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/materialize.min.js"></script>
 </body>
 
 </html>
