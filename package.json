@@ -7,6 +7,11 @@
     "test": "nodemon ./server.js",
     "start": "node server.js"
   },
+  "dependencies": {
+    "express": "*",
+    "socket.io": "*",
+    "request": "*"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/krmax44/Playify-Backend.git"
