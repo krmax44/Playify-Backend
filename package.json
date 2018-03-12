@@ -1,0 +1,23 @@
+{
+  "name": "playify-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "nodemon ./server.js",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/krmax44/Playify-Backend.git"
+  },
+  "keywords": [
+    "playify"
+  ],
+  "author": "krmax44",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/krmax44/Playify-Backend/issues"
+  },
+  "homepage": "https://krmax44.de/playify"
+}
