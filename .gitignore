@@ -1,2 +1,4 @@
 .vscode/
 Thumbs.db
+config.js
+node_modules/

@@ -4,13 +4,11 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "nodemon ./server.js",
-    "start": "node server.js"
+    "start": "node ./server.js"
   },
   "dependencies": {
-    "express": "*",
-    "socket.io": "*",
-    "request": "*"
+    "axios": "^0.18.0",
+    "express": "^4.16.3"
   },
   "repository": {
     "type": "git",
