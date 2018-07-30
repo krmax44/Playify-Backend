@@ -1,7 +1,5 @@
 const artist = $artist => {
-	return {
-		name: $artist.name
-	};
+	return $artist.name;
 };
 
 const artists = $artists => $artists.map($artist => artist($artist));
