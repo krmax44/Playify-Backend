@@ -3,6 +3,7 @@ const Router = express.Router();
 const axios = require('axios');
 const error = require('../helpers/errorBuilder');
 const validateSpotifyId = require('../helpers/validateSpotifyId');
+const masseur = require('../helpers/dataMasseurs');
 const token = require('../helpers/getToken');
 
 Router.use((req, res, next) => {
@@ -20,7 +21,13 @@ Router.get('/track', (req, res) => {
 			headers: { Authorization: token.getHeader() }
 		})
 		.then(trackData => {
-			res.json(trackData.data);
+			const { album, artists, name } = trackData.data;
+
+			res.json({
+				name,
+				album: masseur.album(album),
+				artists: masseur.artists(artists)
+			});
 		})
 		.catch(err => {
 			res.json(error.build(error.errors.invalidId));

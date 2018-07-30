@@ -3,6 +3,7 @@ const Router = express.Router();
 const axios = require('axios');
 const error = require('../helpers/errorBuilder');
 const validateSpotifyId = require('../helpers/validateSpotifyId');
+const masseur = require('../helpers/dataMasseurs');
 const token = require('../helpers/getToken');
 
 Router.use((req, res, next) => {
@@ -22,10 +23,7 @@ Router.get('/artist', (req, res) => {
             headers: { Authorization: token.getHeader() }
         })
         .then(artistData => {
-            let artist = {
-                name: artistData.data.name,
-                images: artistData.data.images
-            };
+            const artistMeta = artistData.data;
 
             const artistAlbums = axios.get(artistUrl + '/albums', {
                 headers: { Authorization: token.getHeader() },
@@ -38,12 +36,16 @@ Router.get('/artist', (req, res) => {
             });
 
             Promise
-                .all([artistAlbums,artistTracks])
+                .all([artistAlbums, artistTracks])
                 .then(data => {
-                    console.log(data);
-                    artist.albums = data[0].data.items;
-                    artist.tracks = data[1].data.tracks;
-                    res.json(artist);
+                    const [artistAlbums, artistTracks] = data;
+                    console.log(artistTracks.data);
+
+                    res.json({
+                        ...masseur.artist(artistMeta),
+                        albums: masseur.albums(artistAlbums.data.items),
+                        tracks: masseur.artistTracks(artistTracks.data.tracks)
+                    });
                 })
                 .catch(err => console.error(err));
         })
