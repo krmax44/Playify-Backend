@@ -42,7 +42,7 @@ Router.get('/artist', (req, res) => {
                     console.log(artistTracks.data);
 
                     res.json({
-                        ...masseur.artist(artistMeta),
+                        name: masseur.artist(artistMeta),
                         albums: masseur.albums(artistAlbums.data.items),
                         tracks: masseur.artistTracks(artistTracks.data.tracks)
                     });

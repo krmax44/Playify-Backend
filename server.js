@@ -3,6 +3,10 @@ const app = express();
 const port = process.env.PORT || 3000;
 const validateSpotifyId = require('./helpers/validateSpotifyId');
 
+app.use((req, res, next) => {
+    res.set('Access-Control-Allow-Origin', '*');
+    next();
+});
 app.use(require('./routes/getAlbum'));
 app.use(require('./routes/getArtist'));
 app.use(require('./routes/getTrack'));
