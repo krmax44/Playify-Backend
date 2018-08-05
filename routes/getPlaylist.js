@@ -34,8 +34,8 @@ Router.get('/playlist', (req, res) => {
 			});
 		})
 		.catch(err => {
+			error.handle(err);
 			res.json(error.build(error.errors.invalidId));
-			console.error(err);
 		});
 });
 
@@ -65,8 +65,8 @@ Router.get('/playlist/:page', (req, res) => {
 			});
 		})
 		.catch(err => {
+			error.handle(err);
 			res.json(error.build(error.errors.invalidId));
-			console.error(err);
 		});
 });
 

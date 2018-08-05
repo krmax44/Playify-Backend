@@ -50,8 +50,8 @@ Router.get('/artist', (req, res) => {
                 .catch(err => console.error(err));
         })
         .catch(err => {
+            error.handle(err);
 			res.json(error.build(error.errors.invalidId));
-			console.error(err);
 		});
 
 });

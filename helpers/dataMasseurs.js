@@ -11,7 +11,13 @@ const album = $album => {
 	}
 };
 
-const albums = $albums => $albums.map($album => album($album));
+const albums = $albums => $albums.map($album => {
+	return {
+		name: $album.name,
+		images: $album.images,
+		id: $album.id
+	}
+});
 
 const albumTracks = $tracks => $tracks.map($track => {
 	return {

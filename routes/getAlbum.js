@@ -30,8 +30,8 @@ Router.get('/album', (req, res) => {
 			});
 		})
 		.catch(err => {
+			error.handle(err);
 			res.json(error.build(error.errors.invalidId));
-			console.error(err);
 		});
 });
 

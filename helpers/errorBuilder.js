@@ -1,3 +1,5 @@
+const token = require('../helpers/getToken');
+
 const errors = {
 	invalidId: {
 		msg: 'Invalid ID.'
@@ -13,6 +15,13 @@ module.exports = {
 			error: true,
 			errorMsg: errorObject.msg
 		};
+	},
+	handle: error => {
+		if (error.response) {
+			if (error.response.status === 401) {
+				token.renew();
+			}
+		}
 	},
 	errors
 };
