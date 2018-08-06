@@ -1,8 +1,7 @@
 const axios = require('axios');
-const config = require('../config');
 const auth = {
-	username: config.clientId || process.env.CLIENTID,
-	password: config.clientSecret || process.env.CLIENTSECRET
+	username: process.env.CLIENTID,
+	password: process.env.CLIENTSECRET
 };
 const querystring = require('querystring');
 
