@@ -1,24 +1,25 @@
 const express = require('express');
 const Router = express.Router();
 const axios = require('axios');
-const error = require('../helpers/errorBuilder');
-const validateSpotifyId = require('../helpers/validateSpotifyId');
-const masseur = require('../helpers/dataMasseurs');
-const token = require('../helpers/getToken');
+
+const errorHandler = require('../handlers/errorHandler');
+const idHandler = require('../handlers/idHandler');
+const dataHandler = require('../handlers/dataHandler');
+const tokenHandler = require('../handlers/tokenHandler');
 
 Router.use((req, res, next) => {
-	if (validateSpotifyId(req.query.id) && validateSpotifyId(req.query.userId)) {
+	if (idHandler.id(req.query.id) && idHandler.userId(req.query.userId)) {
 		next();
 	}
 	else {
-		return res.json(error.build(error.errors.invalidId));
+		return res.json(errorHandler.build(errorHandler.errors.invalidId));
 	}
 });
 
-Router.get('/playlist', (req, res) => {
+Router.get('/', (req, res) => {
 	axios
 		.get(`https://api.spotify.com/v1/users/${encodeURIComponent(req.query.userId)}/playlists/${encodeURIComponent(req.query.id)}`, {
-			headers: { Authorization: token.getHeader() },
+			headers: { Authorization: tokenHandler.getHeader() },
 			params: { limit: 100, fields: 'name,description,owner.display_name,tracks(items(track(name,artists,album(artists,name,images))),limit,total)' }
 		})
 		.then(playlistData => {
@@ -27,46 +28,46 @@ Router.get('/playlist', (req, res) => {
 				name,
 				description,
 				creator: owner.display_name,
-				tracks: masseur.playlistTracks(tracks.items),
+				tracks: dataHandler.playlistTracks(tracks.items),
 				limit: tracks.limit,
 				total: tracks.total,
 				page: 0
 			});
 		})
 		.catch(err => {
-			error.handle(err);
-			res.json(error.build(error.errors.invalidId));
+			errorHandler.handle(err);
+			res.json(errorHandler.build(errorHandler.errors.invalidId));
 		});
 });
 
-Router.get('/playlist/:page', (req, res) => {
+Router.get('/:page', (req, res) => {
 	const page = parseInt(req.params.page);
 	if (!page && page !== 0) {
-		return res.json(error.build(error.errors.invalidPage));
+		return res.json(errorHandler.build(errorHandler.errors.invalidPage));
 	}
 
 	axios
 		.get(`https://api.spotify.com/v1/users/${encodeURIComponent(req.query.userId)}/playlists/${encodeURIComponent(req.query.id)}/tracks`, {
-			headers: { Authorization: token.getHeader() },
+			headers: { Authorization: tokenHandler.getHeader() },
 			params: { limit: 100, offset: page * 100 || 0, fields: 'limit,total,items(track(name,artists,album(artists,name,images)))' }
 		})
 		.then(playlistData => {
 			const { items, limit, total } = playlistData.data;
 
 			if (items.length === 0) {
-				return res.json(error.build(error.errors.invalidPage));
+				return res.json(errorHandler.build(errorHandler.errors.invalidPage));
 			}
 
 			res.json({
-				tracks: masseur.playlistTracks(items),
+				tracks: dataHandler.playlistTracks(items),
 				limit,
 				total,
 				page
 			});
 		})
 		.catch(err => {
-			error.handle(err);
-			res.json(error.build(error.errors.invalidId));
+			errorHandler.handle(err);
+			res.json(errorHandler.build(errorHandler.errors.invalidId));
 		});
 });
 

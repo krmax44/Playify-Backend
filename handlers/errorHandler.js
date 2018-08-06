@@ -1,4 +1,4 @@
-const token = require('../helpers/getToken');
+const tokenHandler = require('./tokenHandler');
 
 const errors = {
 	invalidId: {
@@ -19,7 +19,7 @@ module.exports = {
 	handle: error => {
 		if (error.response) {
 			if (error.response.status === 401) {
-				token.renew();
+				tokenHandler.renew();
 			}
 		}
 	},
