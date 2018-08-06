@@ -1,6 +1,9 @@
 const axios = require('axios');
 const config = require('../config');
-const auth = { username: config.clientId, password: config.clientSecret }; // for axios
+const auth = {
+	username: config.clientId || process.env.CLIENTID,
+	password: config.clientSecret || process.env.CLIENTSECRET
+};
 const querystring = require('querystring');
 
 let token = '';
