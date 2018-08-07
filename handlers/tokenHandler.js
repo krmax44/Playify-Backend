@@ -27,9 +27,13 @@ const renew = () => new Promise((resolve, reject) => {
 				});
 			}
 			else {
-				reject(res.data);
+				reject(res);
 			}
 		})
+		.catch(res => {
+			console.error('Could not obtain token - the provided client credentials may be invalid');
+			reject(res);
+		});
 });
 
 const autorenew =  () => {
@@ -38,7 +42,6 @@ const autorenew =  () => {
 			setTimeout(autorenew, data.expiresIn * 1000 - 20000) // add some spare time
 		})
 		.catch(err => {
-			console.error(err);
 			setTimeout(autorenew, 10000); // wait a bit, then try again
 		});
 };
