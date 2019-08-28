@@ -7,21 +7,24 @@ const idHandler = require('../handlers/idHandler');
 const dataHandler = require('../handlers/dataHandler');
 const tokenHandler = require('../handlers/tokenHandler');
 
-Router.use((req, res, next) => {
-	if (idHandler.id(req.query.id) && idHandler.userId(req.query.userId)) {
-		next();
-	}
-	else {
-		return res.json(errorHandler.build(errorHandler.errors.invalidId));
-	}
-});
+Router.use(idHandler);
 
 Router.get('/', (req, res) => {
+	const { headers } = tokenHandler.getHeader();
 	axios
-		.get(`https://api.spotify.com/v1/users/${encodeURIComponent(req.query.userId)}/playlists/${encodeURIComponent(req.query.id)}`, {
-			headers: { Authorization: tokenHandler.getHeader() },
-			params: { limit: 100, fields: 'name,description,owner.display_name,tracks(items(track(name,artists,album(artists,name,images))),limit,total)' }
-		})
+		.get(
+			`https://api.spotify.com/v1/playlists/${encodeURIComponent(
+				req.query.id
+			)}`,
+			{
+				headers,
+				params: {
+					limit: 100,
+					fields:
+						'name,description,owner.display_name,tracks(items(track(name,artists,album(artists,name,images))),limit,total)'
+				}
+			}
+		)
 		.then(playlistData => {
 			const { name, description, owner, tracks } = playlistData.data;
 			res.json({
@@ -46,11 +49,23 @@ Router.get('/:page', (req, res) => {
 		return res.json(errorHandler.build(errorHandler.errors.invalidPage));
 	}
 
+	const { headers } = tokenHandler.getHeader();
+
 	axios
-		.get(`https://api.spotify.com/v1/users/${encodeURIComponent(req.query.userId)}/playlists/${encodeURIComponent(req.query.id)}/tracks`, {
-			headers: { Authorization: tokenHandler.getHeader() },
-			params: { limit: 100, offset: page * 100 || 0, fields: 'limit,total,items(track(name,artists,album(artists,name,images)))' }
-		})
+		.get(
+			`https://api.spotify.com/v1/playlists/${encodeURIComponent(
+				req.query.id
+			)}/tracks`,
+			{
+				headers,
+				params: {
+					limit: 100,
+					offset: page * 100 || 0,
+					fields:
+						'limit,total,items(track(name,artists,album(artists,name,images)))'
+				}
+			}
+		)
 		.then(playlistData => {
 			const { items, limit, total } = playlistData.data;
 

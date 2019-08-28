@@ -7,20 +7,16 @@ const idHandler = require('../handlers/idHandler');
 const dataHandler = require('../handlers/dataHandler');
 const tokenHandler = require('../handlers/tokenHandler');
 
-Router.use((req, res, next) => {
-	if (idHandler.id(req.query.id)) {
-		next();
-	}
-	else {
-		return res.json(errorHandler.build(error.errors.invalidId));
-	}
-});
+Router.use(idHandler);
 
 Router.get('/', (req, res) => {
 	axios
-		.get(`https://api.spotify.com/v1/tracks/${encodeURIComponent(req.query.id)}`, {
-			headers: { Authorization: tokenHandler.getHeader() }
-		})
+		.get(
+			`https://api.spotify.com/v1/tracks/${encodeURIComponent(req.query.id)}`,
+			{
+				headers: { Authorization: tokenHandler.getHeader() }
+			}
+		)
 		.then(trackData => {
 			const { album, artists, name } = trackData.data;
 

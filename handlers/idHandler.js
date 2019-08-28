@@ -1,6 +1,13 @@
 // see https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids
 
-module.exports = {
-	id: id => /^[a-zA-Z0-9]+$/.test(id) && id,
-	userId: id => /^[^\/\\]+$/.test(id) && id
+const errorHandler = require('./errorHandler');
+
+module.exports = (req, res, next) => {
+	const { id } = req.query;
+
+	if (id && /^[a-zA-Z0-9]+$/.test(id)) {
+		next();
+	} else {
+		return res.json(errorHandler.build(errorHandler.errors.invalidId));
+	}
 };
