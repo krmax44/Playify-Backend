@@ -3,11 +3,8 @@ const Router = express.Router();
 const axios = require('axios');
 
 const errorHandler = require('../handlers/errorHandler');
-const idHandler = require('../handlers/idHandler');
 const dataHandler = require('../handlers/dataHandler');
 const tokenHandler = require('../handlers/tokenHandler');
-
-Router.use(idHandler);
 
 Router.get('/', (req, res) => {
 	axios
