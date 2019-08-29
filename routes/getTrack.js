@@ -3,19 +3,14 @@ const Router = express.Router();
 const axios = require('axios');
 
 const errorHandler = require('../handlers/errorHandler');
-const idHandler = require('../handlers/idHandler');
 const dataHandler = require('../handlers/dataHandler');
 const tokenHandler = require('../handlers/tokenHandler');
-
-Router.use(idHandler);
 
 Router.get('/', (req, res) => {
 	axios
 		.get(
 			`https://api.spotify.com/v1/tracks/${encodeURIComponent(req.query.id)}`,
-			{
-				headers: { Authorization: tokenHandler.getHeader() }
-			}
+			tokenHandler.getHeader()
 		)
 		.then(trackData => {
 			const { album, artists, name } = trackData.data;
@@ -28,6 +23,7 @@ Router.get('/', (req, res) => {
 		})
 		.catch(err => {
 			errorHandler.handle(err);
+			console.log(err);
 			res.json(errorHandler.build(errorHandler.errors.invalidId));
 		});
 });
